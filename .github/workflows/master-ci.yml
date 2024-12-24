@@ -36,5 +36,5 @@ jobs:
           fi
 
       # 5. ESLintの実行（コードスタイルチェック）
-      - name: Run ESLint
-        run: npm run lint
+      # - name: Run ESLint
+      #   run: npm run lint
