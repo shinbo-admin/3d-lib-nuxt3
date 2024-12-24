@@ -2,7 +2,7 @@
   <div class="LayoutHeader">
     <div class="HeaderInner">
       <div class="LeftSide">
-        <ButtonIcon class="mr-2" />
+        <ButtonIcon class="mr-2" :icon="ICONS_TYPE.COG_OUTLINE" />
         <h3>3D Library Tester</h3>
       </div>
 
@@ -11,7 +11,9 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ICONS_TYPE } from '~/constants/constant'
+</script>
 
 <style lang="scss">
 .LayoutHeader {
