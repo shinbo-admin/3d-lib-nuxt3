@@ -1,5 +1,8 @@
 <template>
-  <div class="LayoutDefault"></div>
+  <div class="LayoutDefault">
+    <LayoutHeader />
+    <LayoutPageWrapper><slot /></LayoutPageWrapper>
+  </div>
 </template>
 
 <script setup lang="ts"></script>
