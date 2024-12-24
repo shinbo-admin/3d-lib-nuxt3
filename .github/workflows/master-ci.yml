@@ -1,0 +1,40 @@
+name: Master CI
+
+on:
+  push:
+    branches:
+      - master # masterブランチへのpushがトリガー
+
+jobs:
+  ci-pipeline:
+    runs-on: ubuntu-latest # Ubuntu環境で実行
+
+    steps:
+      # 1. リポジトリのコードをチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Node.js環境のセットアップ
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22 # 最新のNode.js 22.x.xを使用
+          cache: 'npm' # npmのキャッシュを有効化
+
+      # 3. 依存関係のインストール
+      - name: Install dependencies
+        run: npm install
+
+      # 4. console.logが含まれていないか確認
+      - name: Check for console.log
+        run: |
+          if grep -r --exclude-dir=node_modules --include="*.js" --include="*.ts" -E "^[^/]*\bconsole\.log\b" ./; then
+            echo "Error: console.log found in code (not commented out). Remove it before merging."
+            exit 1
+          else
+            echo "No uncommented console.log found. Check passed."
+          fi
+
+      # 5. ESLintの実行（コードスタイルチェック）
+      - name: Run ESLint
+        run: npm run lint
