@@ -7,19 +7,19 @@
 </template>
 
 <script setup lang="ts">
+import { COLORS } from '~/constants/color'
 //------------------------------------------------------------------------------------------------------------
 // ページ設定・引数
 //------------------------------------------------------------------------------------------------------------
 interface Props {
-  icon?: string
+  icon: string
   size?: number
   color?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  icon: 'mdi-cog-outline',
   size: 30,
-  color: '#000',
+  color: COLORS.COLOR,
 })
 
 //------------------------------------------------------------------------------------------------------------

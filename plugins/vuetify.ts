@@ -27,6 +27,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             header: '#FFFFFF',
             footer: '#F5F5F5',
             border: '#BDBDBD',
+            color: '#000000',
           },
         },
         dark: {
@@ -45,6 +46,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             header: '#000000',
             footer: '#1C1C1C',
             border: '#424242',
+            color: '#FFFFFF',
           },
         },
       },
