@@ -1,7 +1,14 @@
 <template>
   <div class="PartSelectMenu" :style="{ width: `${width}px` }">
     <div class="SelectMenuInner">
-      <v-select :items="items" v-model="item" :density="heightStr" @update:menu="onChange" />
+      <v-select
+        class="SelectMenu"
+        :items="items"
+        v-model="item"
+        :density="heightStr"
+        hide-details
+        @update:menu="onChange"
+      />
     </div>
   </div>
 </template>

@@ -15,4 +15,9 @@
   width: 100%;
   background-color: rgb(var(--v-theme-background));
 }
+
+.PageWrapperInner {
+  position: relative;
+  height: 100%;
+}
 </style>

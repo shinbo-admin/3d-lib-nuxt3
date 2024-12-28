@@ -1,8 +1,8 @@
 <template>
-  <div class="FormColorPicker">
+  <div class="FormColorPicker" :style="{ height: `${height}px` }">
     <div class="ColorPickerInner">
-      <FormLabel :label="label" :isIcon="isIcon" :icon="icon" :width="width" />
-      <PartColorPicker :width="width" @update:value="onChange" />
+      <FormLabel :label="label" :isIcon="isIcon" :icon="icon" :width="width" :iconSpace="5" />
+      <PartColorPicker :width="width" :height="40" @update:value="onChange" />
     </div>
   </div>
 </template>
@@ -16,6 +16,7 @@ interface Props {
   isIcon?: boolean
   icon?: string
   width?: number
+  height?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {})
@@ -42,5 +43,6 @@ function onChange(value: string) {
 
 .ColorPickerInner {
   position: relative;
+  height: 100%;
 }
 </style>

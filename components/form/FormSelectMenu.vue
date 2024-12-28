@@ -1,7 +1,7 @@
 <template>
-  <div class="FormSelectMenu">
+  <div class="FormSelectMenu" :style="{ height: `${height}px` }">
     <div class="SelectMenuInner">
-      <FormLabel :label="label" :isIcon="isIcon" :icon="icon" :width="width" />
+      <FormLabel :label="label" :isIcon="isIcon" :icon="icon" :width="width" :iconSpace="5" />
       <PartSelectMenu :items="contents" :width="width" :heightStr="heightStr" @update:value="onChange" />
     </div>
   </div>
@@ -18,6 +18,7 @@ interface Props {
   contents: string[]
   width?: number
   heightStr?: 'default' | 'comfortable' | 'compact'
+  height?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -46,5 +47,6 @@ function onChange(value: string) {
 
 .SelectMenuInner {
   position: relative;
+  height: 100%;
 }
 </style>
