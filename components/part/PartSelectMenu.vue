@@ -1,7 +1,7 @@
 <template>
   <div class="PartSelectMenu" :style="{ width: `${width}px` }">
     <div class="SelectMenuInner">
-      <v-select :items="items" v-model="item" :density="height" @update:menu="onChange" />
+      <v-select :items="items" v-model="item" :density="heightStr" @update:menu="onChange" />
     </div>
   </div>
 </template>
@@ -13,7 +13,7 @@
 interface Props {
   items: string[]
   width?: number
-  height?: 'default' | 'comfortable' | 'compact'
+  heightStr?: 'default' | 'comfortable' | 'compact'
 }
 
 const props = withDefaults(defineProps<Props>(), {})

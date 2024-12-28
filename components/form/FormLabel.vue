@@ -1,5 +1,5 @@
 <template>
-  <div class="FormLabel" :style="{ height: `${height}px` }">
+  <div class="FormLabel" :style="{ height: `${height}px`, width: `${width}px` }">
     <div class="LabelInner" :style="{ lineHeight: `${height}px` }">
       <v-icon v-if="isIcon" :color="`${colors[color]}`" :icon="icon" :size="`${iconSize}px`" />
       <label :style="{ color: color, paddingLeft: `${iconSpace}px`, fontSize: `${fontSize}px` }">{{ label }}</label>
@@ -19,6 +19,7 @@ interface Props {
   iconSpace?: number
   color?: string
   height?: number
+  width?: number
   fontSize?: number
   label: string
 }
