@@ -6,3 +6,9 @@ export const ICONS_TYPE = {
   PALETTE_OUTLINE: 'mdi-palette-outline',
   HORIZONTAL: 'mdi-distribute-horizontal-center',
 }
+
+export const SETTING_KEY = {
+  TITLE: 'key_title',
+  SELECT: 'key_select',
+  COLOR: 'key_color',
+}
