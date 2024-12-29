@@ -58,7 +58,4 @@ const emit = defineEmits<{}>()
   position: relative;
   width: 100%;
 }
-
-.Setting {
-}
 </style>
