@@ -49,7 +49,7 @@ const emit = defineEmits<{}>()
 .FeatureSetting {
   position: relative;
   width: 250px;
-  height: calc(100% - 50px);
+  height: 100%;
   padding: 4px 12px 12px 12px;
   border: 1px solid rgb(var(--v-theme-border));
 }
