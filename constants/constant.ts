@@ -9,6 +9,11 @@ export const ICONS_TYPE = {
   SAVE_OUTLINE: 'mdi-content-save-outline',
   COPY: 'mdi-content-copy',
   DOWNLOAD: 'mdi-tray-arrow-down',
+  RELOAD: 'mdi-reload',
+  CAMERA: 'mdi-camera',
+  CAMERA_OUTLINE: 'mdi-camera-outline',
+  GRID: 'mdi-grid',
+  ARROW_EXPAND: 'mdi-arrow-expand',
 }
 
 export const SETTING_KEY = {
