@@ -5,6 +5,10 @@ export const ICONS_TYPE = {
   EYE_OUTLINE: 'mdi-eye-outline',
   PALETTE_OUTLINE: 'mdi-palette-outline',
   HORIZONTAL: 'mdi-distribute-horizontal-center',
+  PLAY: 'mdi-play',
+  SAVE_OUTLINE: 'mdi-content-save-outline',
+  COPY: 'mdi-content-copy',
+  DOWNLOAD: 'mdi-tray-arrow-down',
 }
 
 export const SETTING_KEY = {
