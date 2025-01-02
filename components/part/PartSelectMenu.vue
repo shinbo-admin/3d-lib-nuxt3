@@ -46,9 +46,9 @@ function onChange() {
 <style lang="scss">
 .PartSelectMenu {
   position: relative;
-}
 
-.SelectMenuInner {
-  position: relative;
+  .SelectMenuInner {
+    position: relative;
+  }
 }
 </style>

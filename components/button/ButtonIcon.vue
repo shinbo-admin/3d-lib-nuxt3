@@ -30,8 +30,10 @@ const colors = useColor()
 
 <style lang="scss">
 .ButtonIcon {
-}
+  position: relative;
 
-.IconInner {
+  .IconInner {
+    position: relative;
+  }
 }
 </style>

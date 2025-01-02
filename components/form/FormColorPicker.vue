@@ -39,10 +39,10 @@ function onChange(value: string) {
 <style lang="scss">
 .FormColorPicker {
   position: relative;
-}
 
-.ColorPickerInner {
-  position: relative;
-  height: 100%;
+  .ColorPickerInner {
+    position: relative;
+    height: 100%;
+  }
 }
 </style>

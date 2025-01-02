@@ -1,7 +1,14 @@
 <template>
   <div class="PartCodeEditor" :style="{ width: `${width}px` }">
     <div class="CodeEditorInner">
-      <MonacoEditor class="CodeEditor" v-model="code" :options="{ theme: 'vs-dark', language: 'typescript' }" />
+      <MonacoEditor
+        class="CodeEditor"
+        v-model="code"
+        :options="{
+          theme: 'vs-dark',
+          language: 'typescript',
+        }"
+      />
     </div>
   </div>
 </template>
@@ -38,15 +45,15 @@ watch(
 .PartCodeEditor {
   position: relative;
   height: 100%;
-}
 
-.CodeEditorInner {
-  position: relative;
-  height: 100%;
-}
+  .CodeEditorInner {
+    position: relative;
+    height: 100%;
 
-.CodeEditor {
-  position: relative;
-  height: 100%;
+    .CodeEditor {
+      position: relative;
+      height: 100%;
+    }
+  }
 }
 </style>

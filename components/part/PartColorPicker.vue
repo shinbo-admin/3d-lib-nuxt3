@@ -37,15 +37,15 @@ function onChange() {
 <style lang="scss">
 .PartColorPicker {
   position: relative;
-}
 
-.ColorPickerInner {
-  position: relative;
-  width: 100%;
-}
+  .ColorPickerInner {
+    position: relative;
+    width: 100%;
 
-.Color {
-  width: 100%;
-  height: 40px;
+    .Color {
+      width: 100%;
+      height: 40px;
+    }
+  }
 }
 </style>

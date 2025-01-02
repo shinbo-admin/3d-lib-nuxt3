@@ -44,11 +44,11 @@ const colors = useColor()
   align-items: center;
   justify-content: start;
   height: 100%;
-}
 
-.LabelInner {
-  line-height: 100%;
-  display: flex;
-  align-items: center;
+  .LabelInner {
+    line-height: 100%;
+    display: flex;
+    align-items: center;
+  }
 }
 </style>

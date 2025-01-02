@@ -52,10 +52,10 @@ const emit = defineEmits<{}>()
   height: 100%;
   padding: 4px 12px 12px 12px;
   border: 1px solid rgb(var(--v-theme-border));
-}
 
-.SettingInner {
-  position: relative;
-  width: 100%;
+  .SettingInner {
+    position: relative;
+    width: 100%;
+  }
 }
 </style>

@@ -22,17 +22,17 @@ import { ICONS_TYPE } from '~/constants/constant'
   height: 50px;
   background-color: rgb(var(--v-theme-header));
   border: 1px solid rgb(var(--v-theme-border));
-}
 
-.HeaderInner {
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px 0 10px;
-}
+  .HeaderInner {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px 0 10px;
 
-.LeftSide {
-  display: flex;
+    .LeftSide {
+      display: flex;
+    }
+  }
 }
 </style>

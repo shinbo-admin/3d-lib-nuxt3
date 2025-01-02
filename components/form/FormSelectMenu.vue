@@ -43,10 +43,10 @@ function onChange(value: string) {
 <style lang="scss">
 .FormSelectMenu {
   position: relative;
-}
 
-.SelectMenuInner {
-  position: relative;
-  height: 100%;
+  .SelectMenuInner {
+    position: relative;
+    height: 100%;
+  }
 }
 </style>
