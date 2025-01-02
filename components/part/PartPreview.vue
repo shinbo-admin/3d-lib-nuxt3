@@ -13,6 +13,7 @@ import * as THREE from 'three'
 //------------------------------------------------------------------------------------------------------------
 interface Props {
   width?: number
+  code?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {})
@@ -30,7 +31,7 @@ const width = ref<number>(0)
 const height = ref<number>(0)
 let camera: THREE.PerspectiveCamera
 let scene: THREE.Scene
-let mesh: THREE.Mesh
+let mesh: THREE.Mesh | null = null
 let renderer: THREE.WebGLRenderer
 
 //------------------------------------------------------------------------------------------------------------
@@ -39,49 +40,89 @@ let renderer: THREE.WebGLRenderer
 onMounted(() => {
   const previewRect = preview.value?.getBoundingClientRect()
   if (previewRect) {
-    // ウィンドウのサイズを取得
+    // 要素のサイズを取得
     width.value = previewRect.width
     height.value = previewRect.height
 
-    // PerspectiveCamera(視野角(度), アスペクト比, 表示可能な最小クリップ範囲, 表示可能な最大クリップ範囲)
-    camera = new THREE.PerspectiveCamera(70, width.value / height.value, 0.01, 10)
-    // カメラの初期位置
-    camera.position.z = 1
-    // オブジェクトを配置するためのコンテナ
-    scene = new THREE.Scene()
-    // BoxGeometry(幅, 高さ, 奥行)を生成
-    const geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2)
-    // 各頂点の法線方向に色を生成
-    const material = new THREE.MeshNormalMaterial()
-
-    // geometryとmaterialを組み合わせてコンテンツを作成
-    mesh = new THREE.Mesh(geometry, material)
-    // コンテナに追加
-    scene.add(mesh)
-
-    // コンテンツを描画するレンダラーを生成（アンチエイリアスを有効化）
-    renderer = new THREE.WebGLRenderer({ antialias: true })
-    // レンダラーのキャンバスサイズを設定
-    renderer.setSize(width.value, height.value)
-    // レンダラーにアニメーションループを設定
-    renderer.setAnimationLoop(animate)
-
-    if (preview.value) {
-      // レンダラーを要素に追加
-      preview.value.appendChild(renderer.domElement)
-    }
+    // 初期化
+    onInitial()
   }
 })
 
 //------------------------------------------------------------------------------------------------------------
+// watch
+//------------------------------------------------------------------------------------------------------------
+watch(
+  () => props.code,
+  (value) => {
+    console.log('データが流れてきた', value)
+    if (value) onUpdateScene(value)
+  }
+)
+
+//------------------------------------------------------------------------------------------------------------
 // Function
 //------------------------------------------------------------------------------------------------------------
-function animate(time: number) {
-  // NOTE: timeはThree.jsによって自動的に渡される（ミリ秒）
-  mesh.rotation.x = time / 2000 // x軸方向の回転速度
-  mesh.rotation.y = time / 1000 // y軸方向の回転速度
+function onInitial() {
+  // カメラの初期化
+  camera = new THREE.PerspectiveCamera(70, width.value / height.value, 0.01, 10)
+  camera.position.z = 1
 
-  // シーンとカメラを使ってレンダリング
+  // シーンの初期化
+  scene = new THREE.Scene()
+
+  // レンダラーの初期化
+  renderer = new THREE.WebGLRenderer({ antialias: true })
+  renderer.setSize(width.value, height.value)
+  renderer.setAnimationLoop(animate)
+
+  // DOM にレンダラーを追加
+  if (preview.value) {
+    preview.value.appendChild(renderer.domElement)
+  }
+}
+
+function onUpdateScene(code: string) {
+  try {
+    // 既存のメッシュを削除
+    if (mesh) {
+      scene.remove(mesh)
+    }
+
+    // 新しいオブジェクトを生成（例: ボックス, 球体, 円柱
+    if (code === 'box') {
+      const geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2)
+      const material = new THREE.MeshNormalMaterial()
+      mesh = new THREE.Mesh(geometry, material)
+    } else if (code === 'sphere') {
+      const geometry = new THREE.SphereGeometry(0.2, 32, 32)
+      const material = new THREE.MeshNormalMaterial()
+      mesh = new THREE.Mesh(geometry, material)
+    } else if (code === 'cylinder') {
+      const geometry = new THREE.CylinderGeometry(0.1, 0.1, 0.4, 32)
+      const material = new THREE.MeshNormalMaterial()
+      mesh = new THREE.Mesh(geometry, material)
+    } else {
+      mesh = null
+    }
+
+    // 新しいメッシュをシーンに追加
+    if (mesh) {
+      scene.add(mesh)
+    }
+  } catch (error) {
+    // emit('update:error', String(error))
+  }
+}
+
+function animate(time: number) {
+  // メッシュが存在する場合のみ回転
+  if (mesh) {
+    mesh.rotation.x = time / 2000
+    mesh.rotation.y = time / 1000
+  }
+
+  // レンダリング
   renderer.render(scene, camera)
 }
 </script>
