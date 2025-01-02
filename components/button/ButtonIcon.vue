@@ -1,5 +1,5 @@
 <template>
-  <div class="ButtonIcon">
+  <div class="ButtonIcon" :class="{ Cursor: isCursor }">
     <div class="IconInner">
       <v-icon :color="`${colors[color]}`" :icon="icon" :size="`${size}px`" />
     </div>
@@ -15,11 +15,13 @@ interface Props {
   icon: string
   size?: number
   color?: string
+  isCursor?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   size: 30,
   color: COLORS.COLOR,
+  isCursor: false,
 })
 
 //------------------------------------------------------------------------------------------------------------
@@ -31,6 +33,10 @@ const colors = useColor()
 <style lang="scss">
 .ButtonIcon {
   position: relative;
+
+  &.Cursor {
+    cursor: pointer;
+  }
 
   .IconInner {
     position: relative;
