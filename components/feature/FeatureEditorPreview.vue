@@ -5,29 +5,29 @@
         <div class="Header">
           <div class="LeftSide">
             <ButtonIcon class="mr-4" :icon="ICONS_TYPE.PLAY" :size="22" isCursor @click="onClickPlay" />
-            <ButtonIcon :icon="ICONS_TYPE.SAVE_OUTLINE" :size="22" isCursor />
+            <ButtonIcon :icon="ICONS_TYPE.SAVE_OUTLINE" :size="22" isCursor @click="onSaveCode" />
           </div>
           <div class="RightSide">
-            <ButtonIcon class="mr-4" :icon="ICONS_TYPE.COPY" :size="22" isCursor />
-            <ButtonIcon :icon="ICONS_TYPE.DOWNLOAD" :size="22" isCursor />
+            <ButtonIcon :icon="ICONS_TYPE.COPY" :size="22" isCursor @click="onCopyCode" />
+            <!-- <ButtonIcon :icon="ICONS_TYPE.DOWNLOAD" :size="22" isCursor /> -->
           </div>
         </div>
-        <PartCodeEditor @update:value="onChange" />
+        <PartCodeEditor :data="code" @update:value="onChangeCode" />
       </div>
 
       <div class="PreviewSide">
         <div class="Header">
           <div class="LeftSide">
-            <ButtonIcon class="mr-4" :icon="ICONS_TYPE.RELOAD" :size="22" isCursor />
-            <ButtonIcon :icon="ICONS_TYPE.CAMERA_OUTLINE" :size="22" isCursor />
+            <!-- <ButtonIcon class="mr-4" :icon="ICONS_TYPE.RELOAD" :size="22" isCursor />
+            <ButtonIcon :icon="ICONS_TYPE.CAMERA_OUTLINE" :size="22" isCursor /> -->
           </div>
           <div class="RightSide">
-            <ButtonIcon class="mr-4" :icon="ICONS_TYPE.GRID" :size="22" isCursor />
-            <ButtonIcon :icon="ICONS_TYPE.ARROW_EXPAND" :size="22" isCursor />
+            <ButtonIcon :icon="ICONS_TYPE.GRID" :size="22" isCursor @click="onChangeGrid" />
+            <!-- <ButtonIcon :icon="ICONS_TYPE.ARROW_EXPAND" :size="22" isCursor /> -->
           </div>
         </div>
 
-        <PartPreview :code="previewCode" />
+        <PartPreview :data="previewCode" :isGrid="isGrid" />
       </div>
     </div>
   </div>
@@ -35,7 +35,6 @@
 
 <script setup lang="ts">
 import { ICONS_TYPE } from '~/constants/constant'
-
 //------------------------------------------------------------------------------------------------------------
 // ページ設定・引数
 //------------------------------------------------------------------------------------------------------------
@@ -50,17 +49,37 @@ const emit = defineEmits<{}>()
 //------------------------------------------------------------------------------------------------------------
 const code = ref('')
 const previewCode = ref('')
+const isGrid = ref(false)
+
+//------------------------------------------------------------------------------------------------------------
+// マウント
+//------------------------------------------------------------------------------------------------------------
+onMounted(() => {
+  const saveCode = sessionStorage.getItem('code')
+  if (saveCode) code.value = saveCode
+})
 
 //------------------------------------------------------------------------------------------------------------
 // Function
 //------------------------------------------------------------------------------------------------------------
-function onChange(value: any) {
+function onChangeCode(value: any) {
   code.value = value
 }
 
 function onClickPlay() {
-  console.log('onClickPlay')
   previewCode.value = code.value
+}
+
+function onCopyCode() {
+  navigator.clipboard.writeText(code.value)
+}
+
+function onChangeGrid() {
+  isGrid.value = !isGrid.value
+}
+
+function onSaveCode() {
+  sessionStorage.setItem('code', code.value)
 }
 </script>
 

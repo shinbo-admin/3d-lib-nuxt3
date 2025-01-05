@@ -1,6 +1,6 @@
 <template>
   <div class="PartPreview">
-    <div class="PartPreviewInner">
+    <div class="PartPreviewInner Drag" @mousedown="onMoveStart">
       <div class="Preview" ref="preview" />
     </div>
   </div>
@@ -13,10 +13,13 @@ import * as THREE from 'three'
 //------------------------------------------------------------------------------------------------------------
 interface Props {
   width?: number
-  code?: string
+  data?: string
+  isGrid?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {
+  isGrid: false,
+})
 
 const emit = defineEmits<{
   (e: 'update:value', value: string): void
@@ -29,10 +32,13 @@ const emit = defineEmits<{
 const preview = ref<HTMLElement | null>(null)
 const width = ref<number>(0)
 const height = ref<number>(0)
+const cameraPos = ref<{ x: number; y: number }>({ x: 0, y: 0 })
+const isDrag = ref(false)
 let camera: THREE.PerspectiveCamera
 let scene: THREE.Scene
 let mesh: THREE.Mesh | null = null
 let renderer: THREE.WebGLRenderer
+let gridHelpers: THREE.GridHelper[] = []
 
 //------------------------------------------------------------------------------------------------------------
 // マウント
@@ -53,10 +59,17 @@ onMounted(() => {
 // watch
 //------------------------------------------------------------------------------------------------------------
 watch(
-  () => props.code,
+  () => props.data,
   (value) => {
     console.log('データが流れてきた', value)
     if (value) onUpdateScene(value)
+  }
+)
+
+watch(
+  () => props.isGrid,
+  (value) => {
+    onChangeGrid(value)
   }
 )
 
@@ -66,7 +79,8 @@ watch(
 function onInitial() {
   // カメラの初期化
   camera = new THREE.PerspectiveCamera(70, width.value / height.value, 0.01, 10)
-  camera.position.z = 1
+  camera.position.set(2, 2, 2)
+  camera.lookAt(0, 0, 0)
 
   // シーンの初期化
   scene = new THREE.Scene()
@@ -89,7 +103,7 @@ function onUpdateScene(code: string) {
       scene.remove(mesh)
     }
 
-    // 新しいオブジェクトを生成（例: ボックス, 球体, 円柱
+    // 新しいオブジェクトを生成（例: ボックス, 球体, 円柱）
     if (code === 'box') {
       const geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2)
       const material = new THREE.MeshNormalMaterial()
@@ -125,6 +139,71 @@ function animate(time: number) {
   // レンダリング
   renderer.render(scene, camera)
 }
+
+function onChangeGrid(value: boolean) {
+  if (value) {
+    onAddGrid()
+  } else {
+    onRemoveGrid()
+  }
+}
+
+function onAddGrid() {
+  const gridSize = 10 // グリッドの大きさ
+  const divisions = 100 // 分割数
+
+  // X-Z 平面のグリッド
+  const gridXZ = new THREE.GridHelper(gridSize, divisions, 0x444444, 0x888888)
+  gridXZ.rotation.x = 0 // デフォルトの平面
+  scene.add(gridXZ)
+  gridHelpers.push(gridXZ)
+
+  // Y-Z 平面のグリッド
+  const gridYZ = new THREE.GridHelper(gridSize, divisions, 0x444444, 0x888888)
+  gridYZ.rotation.z = Math.PI / 2 // Z 軸を基準に 90 度回転
+  scene.add(gridYZ)
+  gridHelpers.push(gridYZ)
+
+  // X-Y 平面のグリッド
+  const gridXY = new THREE.GridHelper(gridSize, divisions, 0x444444, 0x888888)
+  gridXY.rotation.x = Math.PI / 2 // X 軸を基準に 90 度回転
+  scene.add(gridXY)
+  gridHelpers.push(gridXY)
+}
+
+function onRemoveGrid() {
+  gridHelpers.forEach((grid) => {
+    scene.remove(grid)
+  })
+
+  gridHelpers = []
+}
+
+// カメラの位置を変更
+function onMoveStart() {
+  isDrag.value = true
+  window.addEventListener('mousemove', onMouseMove, { passive: true })
+  window.addEventListener('mouseup', onMouseUp)
+}
+
+function onMouseMove(e: MouseEvent) {
+  const previewRect = preview.value?.getBoundingClientRect()
+  if (previewRect) {
+    cameraPos.value.x = ((e.clientX - previewRect.left) / previewRect.width) * 2 - 1
+    cameraPos.value.y = ((e.clientY - previewRect.top) / previewRect.height) * 2 + 1
+
+    // カメラの位置を更新
+    camera.position.x = cameraPos.value.x
+    camera.position.y = cameraPos.value.y
+    camera.lookAt(0, 0, 0)
+  }
+}
+
+function onMouseUp() {
+  window.removeEventListener('mousemove', onMouseMove)
+  window.removeEventListener('mouseup', onMouseUp)
+  isDrag.value = false
+}
 </script>
 
 <style lang="scss">
@@ -137,6 +216,10 @@ function animate(time: number) {
     position: relative;
     height: 100%;
     width: 100%;
+
+    &.Drag {
+      cursor: grab;
+    }
   }
 
   .Preview {
