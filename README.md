@@ -1,3 +1,5 @@
+![Example Image](./assets/イメージ画像.png "プレビュー画像")
+
 ## Setup
 
 Make sure to install dependencies:
